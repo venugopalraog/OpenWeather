@@ -5,6 +5,8 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0-beta7'
@@ -24,4 +26,14 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    butterknifeVer = '8.8.1'
+    roboelectricVer = '3.3.2'
+    daggerVersion = '2.12'
+    supportVer = '26.1.0'
+    retrofitVer = '2.3.0'
+    gsonVer = '2.8.0'
+    timberVer = '4.5.1'
 }

@@ -1,0 +1,42 @@
+{
+  "coord": {
+    "lon": -82.93,
+    "lat": 40.13
+  },
+  "weather": [
+    {
+      "id": 721,
+      "main": "Haze",
+      "description": "haze",
+      "icon": "50d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 17.78,
+    "pressure": 1021,
+    "humidity": 82,
+    "temp_min": 17,
+    "temp_max": 19
+  },
+  "visibility": 16093,
+  "wind": {
+    "speed": 2.31,
+    "deg": 166.501
+  },
+  "clouds": {
+    "all": 90
+  },
+  "dt": 1507834500,
+  "sys": {
+    "type": 1,
+    "id": 2171,
+    "message": 0.006,
+    "country": "US",
+    "sunrise": 1507808416,
+    "sunset": 1507848894
+  },
+  "id": 5176472,
+  "name": "Westerville",
+  "cod": 200
+}
