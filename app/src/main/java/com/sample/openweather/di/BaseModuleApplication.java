@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 
 import com.sample.openweather.net.request.BaseRequest;
 import com.sample.openweather.net.request.NetworkRequest;
+import com.sample.openweather.utils.SharedPreferencesUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -28,21 +29,13 @@ public class BaseModuleApplication {
     }
 
     @Provides
-    @Singleton
     Application providesApplication() {
         return application;
     }
 
     @Provides
-    @Singleton
     Context providesContext() {
         return application.getApplicationContext();
-    }
-
-    @Provides
-    @Singleton
-    SharedPreferences providesSharedPreferences(Application application) {
-        return PreferenceManager.getDefaultSharedPreferences(application);
     }
 
     @Provides
@@ -51,10 +44,22 @@ public class BaseModuleApplication {
     }
 
     @Provides
+    SharedPreferences providesSharedPreferences(Application application) {
+        return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferencesUtil providesSharedPreferencesUtil(SharedPreferences sharedPreferences) {
+        return new SharedPreferencesUtil(sharedPreferences);
+    }
+
+    @Provides
     @Singleton
     BaseRequest providesNetworkRequest() {
         return new NetworkRequest();
-        // Use this to test Weather fragment with Json Response from raw resource folder
+
+        // Use ModelFromRawAssets class to test Weather fragment with local Json Response from raw resource folder
         // return new ModelFromRawAssets(mMyApplication);
     }
 }

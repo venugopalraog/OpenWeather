@@ -66,11 +66,10 @@ dependencies {
     compile "com.android.support:design:$rootProject.ext.supportVer"
 
     //Event Bus library used for communication between Presenter to View
-    compile 'org.greenrobot:eventbus:3.0.0'
+    compile "org.greenrobot:eventbus:$rootProject.ext.eventbusVer"
 
     //Glide library for loading images smooth and fast in RecyclerView
-    compile 'com.github.bumptech.glide:glide:3.8.0'
+    compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVer"
 
-
-    compile 'com.google.guava:guava:18.0'
+    compile "com.google.guava:guava:$rootProject.ext.guavaVer"
 }

@@ -1,7 +1,6 @@
 package com.sample.openweather.views.fragments;
 
 import android.app.Dialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -30,6 +29,7 @@ import com.sample.openweather.models.weather.Weather;
 import com.sample.openweather.presenter.MainScreenPresenter;
 import com.sample.openweather.utils.CommonUtils;
 import com.sample.openweather.utils.DateTimeUtils;
+import com.sample.openweather.utils.SharedPreferencesUtil;
 import com.sample.openweather.views.adapters.WeatherForecastAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,8 +49,6 @@ import timber.log.Timber;
 public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG = WeatherFragment.class.getSimpleName();
-
-    private String city = "Westerville";
 
 
     @BindView(R.id.coordinator_layout)
@@ -86,12 +84,11 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.update_city)
     FloatingActionButton updateCityFAB;
 
-
     @Inject
     MainScreenPresenter presenter;
 
     @Inject
-    SharedPreferences sharedPreferences;
+    SharedPreferencesUtil sharedPreferencesUtil;
 
     @Inject
     EventBus eventBus;
@@ -125,7 +122,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         updateCityFAB.setOnClickListener(this);
 
         //Fetch Weather Data from openWeather API
-        presenter.fetchWeatherData(city);
+        presenter.fetchWeatherData(sharedPreferencesUtil.getLastSearchedCityName());
 
         return rootView;
     }
@@ -180,7 +177,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     private void handleWeatherResponse() {
         loadWeatherData();
-        presenter.fetchWeatherForecastData(city);
+        presenter.fetchWeatherForecastData(sharedPreferencesUtil.getLastSearchedCityName());
         progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -204,7 +201,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     private void loadImage(Weather weather) {
         String url = String.format("%s/%s", BuildConfig.ICON_URL, weather.getIcon());
-
         Timber.tag(TAG).d("Image Url: " + url);
         // Load weather icon into imageView using Glide
         Glide.with(this)
@@ -215,8 +211,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     }
 
     public void updateWeatherCity(String cityName) {
+        sharedPreferencesUtil.saveLastSearchedCityName(cityName);
         progressDialog = CommonUtils.createProgressBarDialog(getActivity());
-        city = cityName;
         presenter.fetchWeatherData(cityName);
     }
 

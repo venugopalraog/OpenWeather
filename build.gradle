@@ -36,4 +36,7 @@ ext {
     retrofitVer = '2.3.0'
     gsonVer = '2.8.0'
     timberVer = '4.5.1'
+    eventbusVer = '3.0.0'
+    glideVer = '3.8.0'
+    guavaVer = '18.0'
 }
