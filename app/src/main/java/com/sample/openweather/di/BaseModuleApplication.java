@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.sample.openweather.net.request.BaseRequest;
 import com.sample.openweather.net.request.NetworkRequest;
 
 import org.greenrobot.eventbus.EventBus;
@@ -20,22 +21,22 @@ import dagger.Provides;
 @Module
 public class BaseModuleApplication {
 
-    MyApplication mMyApplication;
+    MyApplication application;
 
     public BaseModuleApplication(MyApplication myApplication) {
-        mMyApplication = myApplication;
+        application = myApplication;
     }
 
     @Provides
     @Singleton
     Application providesApplication() {
-        return mMyApplication;
+        return application;
     }
 
     @Provides
     @Singleton
     Context providesContext() {
-        return mMyApplication.getApplicationContext();
+        return application.getApplicationContext();
     }
 
     @Provides
@@ -45,14 +46,15 @@ public class BaseModuleApplication {
     }
 
     @Provides
-    EventBus providesEventBus(Application application) {
+    EventBus providesEventBus() {
         return EventBus.getDefault();
     }
 
     @Provides
     @Singleton
-    NetworkRequest providesNetworkRequest() {
+    BaseRequest providesNetworkRequest() {
         return new NetworkRequest();
+        // Use this to test Weather fragment with Json Response from raw resource folder
+        // return new ModelFromRawAssets(mMyApplication);
     }
-
 }

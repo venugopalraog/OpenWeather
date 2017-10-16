@@ -11,14 +11,14 @@ public class DateTimeUtils {
 
     public static String getDayOfWeek(long time) {
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(time);
+        cal.setTimeInMillis(time * 1000);
         SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE");
         return simpleDateformat.format(cal.getTime());
     }
 
     public static String getDate(long time) {
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(time);
+        cal.setTimeInMillis(time * 1000);
         SimpleDateFormat simpleDateformat = new SimpleDateFormat("MMM dd yyyy hh:mm");
         return simpleDateformat.format(cal.getTime());
     }

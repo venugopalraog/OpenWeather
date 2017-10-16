@@ -5,36 +5,36 @@
   },
   "weather": [
     {
-      "id": 721,
-      "main": "Haze",
-      "description": "haze",
-      "icon": "50d"
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04d"
     }
   ],
   "base": "stations",
   "main": {
-    "temp": 17.78,
-    "pressure": 1021,
-    "humidity": 82,
-    "temp_min": 17,
-    "temp_max": 19
+    "temp": 13.71,
+    "pressure": 1025,
+    "humidity": 54,
+    "temp_min": 12,
+    "temp_max": 16
   },
   "visibility": 16093,
   "wind": {
-    "speed": 2.31,
-    "deg": 166.501
+    "speed": 2.6,
+    "deg": 320
   },
   "clouds": {
-    "all": 90
+    "all": 75
   },
-  "dt": 1507834500,
+  "dt": 1508182020,
   "sys": {
     "type": 1,
-    "id": 2171,
-    "message": 0.006,
+    "id": 2187,
+    "message": 0.0142,
     "country": "US",
-    "sunrise": 1507808416,
-    "sunset": 1507848894
+    "sunrise": 1508154271,
+    "sunset": 1508194134
   },
   "id": 5176472,
   "name": "Westerville",

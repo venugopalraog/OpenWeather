@@ -4,7 +4,8 @@ import android.content.Context;
 
 import com.sample.openweather.models.BaseResponse;
 import com.sample.openweather.models.events.NetworkResponseEvent;
-import com.sample.openweather.net.request.NetworkRequest;
+import com.sample.openweather.models.events.NetworkResponseFailedEvent;
+import com.sample.openweather.net.request.BaseRequest;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -14,10 +15,10 @@ import javax.inject.Inject;
  * Created by venugopalraog on 10/12/17.
  */
 
-public class MainScreenPresenter extends BasePresenter implements RequestStatusListner {
+public class MainScreenPresenter extends BasePresenter implements RequestStatusListener {
 
     @Inject
-    NetworkRequest networkRequest;
+    BaseRequest networkRequest;
 
     @Inject
     EventBus eventBus;
@@ -43,7 +44,7 @@ public class MainScreenPresenter extends BasePresenter implements RequestStatusL
 
     @Override
     public void onRequestFailed(String message) {
-
+        eventBus.post(new NetworkResponseFailedEvent(message));
     }
 
 }

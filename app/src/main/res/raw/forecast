@@ -1,185 +1,137 @@
 {
-  "cod": "200",
-  "message": 0.0075,
-  "cnt": 5,
-  "list": [
-    {
-      "dt": 1507852800,
-      "main": {
-        "temp": 16.28,
-        "temp_min": 16.28,
-        "temp_max": 17.35,
-        "pressure": 997.19,
-        "sea_level": 1033.56,
-        "grnd_level": 997.19,
-        "humidity": 83,
-        "temp_kf": -1.07
-      },
-      "weather": [
-        {
-          "id": 500,
-          "main": "Rain",
-          "description": "light rain",
-          "icon": "10n"
-        }
-      ],
-      "clouds": {
-        "all": 36
-      },
-      "wind": {
-        "speed": 2.52,
-        "deg": 148.502
-      },
-      "rain": {
-        "3h": 0.025
-      },
-      "sys": {
-        "pod": "n"
-      },
-      "dt_txt": "2017-10-13 00:00:00"
-    },
-    {
-      "dt": 1507863600,
-      "main": {
-        "temp": 12.56,
-        "temp_min": 12.56,
-        "temp_max": 13.27,
-        "pressure": 997.5,
-        "sea_level": 1033.97,
-        "grnd_level": 997.5,
-        "humidity": 96,
-        "temp_kf": -0.71
-      },
-      "weather": [
-        {
-          "id": 500,
-          "main": "Rain",
-          "description": "light rain",
-          "icon": "10n"
-        }
-      ],
-      "clouds": {
-        "all": 0
-      },
-      "wind": {
-        "speed": 1.48,
-        "deg": 168.005
-      },
-      "rain": {
-        "3h": 0.005
-      },
-      "sys": {
-        "pod": "n"
-      },
-      "dt_txt": "2017-10-13 03:00:00"
-    },
-    {
-      "dt": 1507874400,
-      "main": {
-        "temp": 10.3,
-        "temp_min": 10.3,
-        "temp_max": 10.66,
-        "pressure": 997.41,
-        "sea_level": 1034.11,
-        "grnd_level": 997.41,
-        "humidity": 93,
-        "temp_kf": -0.36
-      },
-      "weather": [
-        {
-          "id": 800,
-          "main": "Clear",
-          "description": "clear sky",
-          "icon": "01n"
-        }
-      ],
-      "clouds": {
-        "all": 0
-      },
-      "wind": {
-        "speed": 0.78,
-        "deg": 109.506
-      },
-      "rain": {},
-      "sys": {
-        "pod": "n"
-      },
-      "dt_txt": "2017-10-13 06:00:00"
-    },
-    {
-      "dt": 1507885200,
-      "main": {
-        "temp": 9.47,
-        "temp_min": 9.47,
-        "temp_max": 9.47,
-        "pressure": 998.1,
-        "sea_level": 1034.89,
-        "grnd_level": 998.1,
-        "humidity": 90,
-        "temp_kf": 0
-      },
-      "weather": [
-        {
-          "id": 800,
-          "main": "Clear",
-          "description": "clear sky",
-          "icon": "01n"
-        }
-      ],
-      "clouds": {
-        "all": 0
-      },
-      "wind": {
-        "speed": 1.15,
-        "deg": 78.5009
-      },
-      "rain": {},
-      "sys": {
-        "pod": "n"
-      },
-      "dt_txt": "2017-10-13 09:00:00"
-    },
-    {
-      "dt": 1507896000,
-      "main": {
-        "temp": 8.89,
-        "temp_min": 8.89,
-        "temp_max": 8.89,
-        "pressure": 999,
-        "sea_level": 1035.93,
-        "grnd_level": 999,
-        "humidity": 87,
-        "temp_kf": 0
-      },
-      "weather": [
-        {
-          "id": 800,
-          "main": "Clear",
-          "description": "clear sky",
-          "icon": "01d"
-        }
-      ],
-      "clouds": {
-        "all": 0
-      },
-      "wind": {
-        "speed": 1.26,
-        "deg": 66.5076
-      },
-      "rain": {},
-      "sys": {
-        "pod": "d"
-      },
-      "dt_txt": "2017-10-13 12:00:00"
-    }
-  ],
   "city": {
     "id": 5176472,
     "name": "Westerville",
     "coord": {
-      "lat": 40.1262,
-      "lon": -82.9291
+      "lon": -82.9291,
+      "lat": 40.1262
     },
-    "country": "US"
-  }
+    "country": "US",
+    "population": 0
+  },
+  "cod": "200",
+  "message": 10.3460344,
+  "cnt": 5,
+  "list": [
+    {
+      "dt": 1508173200,
+      "temp": {
+        "day": 13.71,
+        "min": 2.5,
+        "max": 14,
+        "night": 2.5,
+        "eve": 8.14,
+        "morn": 13.71
+      },
+      "pressure": 1002.07,
+      "humidity": 62,
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "sky is clear",
+          "icon": "01d"
+        }
+      ],
+      "speed": 3.76,
+      "deg": 338,
+      "clouds": 0
+    },
+    {
+      "dt": 1508259600,
+      "temp": {
+        "day": 16.31,
+        "min": 1.62,
+        "max": 16.97,
+        "night": 5.12,
+        "eve": 11.65,
+        "morn": 1.62
+      },
+      "pressure": 1002.56,
+      "humidity": 57,
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "sky is clear",
+          "icon": "01d"
+        }
+      ],
+      "speed": 6.11,
+      "deg": 234,
+      "clouds": 0
+    },
+    {
+      "dt": 1508346000,
+      "temp": {
+        "day": 18.22,
+        "min": 2.04,
+        "max": 18.4,
+        "night": 7.3,
+        "eve": 12.39,
+        "morn": 2.04
+      },
+      "pressure": 1002.25,
+      "humidity": 54,
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "sky is clear",
+          "icon": "01d"
+        }
+      ],
+      "speed": 5.16,
+      "deg": 198,
+      "clouds": 0
+    },
+    {
+      "dt": 1508432400,
+      "temp": {
+        "day": 19.49,
+        "min": 8.68,
+        "max": 19.49,
+        "night": 9.61,
+        "eve": 17.13,
+        "morn": 8.68
+      },
+      "pressure": 1000.62,
+      "humidity": 0,
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "sky is clear",
+          "icon": "01d"
+        }
+      ],
+      "speed": 6.31,
+      "deg": 239,
+      "clouds": 0
+    },
+    {
+      "dt": 1508518800,
+      "temp": {
+        "day": 20.68,
+        "min": 4.59,
+        "max": 20.68,
+        "night": 10.71,
+        "eve": 15.74,
+        "morn": 4.59
+      },
+      "pressure": 1002.61,
+      "humidity": 0,
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "sky is clear",
+          "icon": "01d"
+        }
+      ],
+      "speed": 1.67,
+      "deg": 183,
+      "clouds": 0
+    }
+  ]
 }

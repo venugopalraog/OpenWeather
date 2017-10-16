@@ -1,8 +1,12 @@
 package com.sample.openweather.views.fragments;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,8 +25,10 @@ import com.sample.openweather.di.MyApplication;
 import com.sample.openweather.models.WeatherForecastResponse;
 import com.sample.openweather.models.WeatherResponse;
 import com.sample.openweather.models.events.NetworkResponseEvent;
+import com.sample.openweather.models.events.NetworkResponseFailedEvent;
 import com.sample.openweather.models.weather.Weather;
 import com.sample.openweather.presenter.MainScreenPresenter;
+import com.sample.openweather.utils.CommonUtils;
 import com.sample.openweather.utils.DateTimeUtils;
 import com.sample.openweather.views.adapters.WeatherForecastAdapter;
 
@@ -40,13 +46,15 @@ import timber.log.Timber;
  * Created by venugopalraog on 10/12/17.
  */
 
-public class WeatherFragment extends Fragment {
+public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG = WeatherFragment.class.getSimpleName();
 
     private String city = "Westerville";
 
 
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout coordinatorLayout;
 
     @BindView(R.id.weather_recycler_view)
     RecyclerView recyclerView;
@@ -75,6 +83,9 @@ public class WeatherFragment extends Fragment {
     @BindView(R.id.loading_forecast_progress)
     ProgressBar progressBar;
 
+    @BindView(R.id.update_city)
+    FloatingActionButton updateCityFAB;
+
 
     @Inject
     MainScreenPresenter presenter;
@@ -88,14 +99,13 @@ public class WeatherFragment extends Fragment {
     private WeatherResponse weatherResponse;
     private WeatherForecastResponse weatherForecastResponse;
     private WeatherForecastAdapter adapter;
+    private Dialog progressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Add WeatherFragment to Dagger
         MyApplication.getAppComponent(MyApplication.getAppContext()).inject(this);
-        //Fetch Weather Data from openWeather API
-        presenter.fetchWeatherData(city);
         //Register WeatherFragment for EventBus
         eventBus.register(this);
     }
@@ -112,6 +122,11 @@ public class WeatherFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
+        updateCityFAB.setOnClickListener(this);
+
+        //Fetch Weather Data from openWeather API
+        presenter.fetchWeatherData(city);
+
         return rootView;
     }
 
@@ -124,24 +139,46 @@ public class WeatherFragment extends Fragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNetworkResponseEvent(NetworkResponseEvent event) {
+    public void onEventMainThread(NetworkResponseEvent event) {
         Timber.tag(TAG).d("Response received from Network");
         if (event.getBaseResponse() instanceof WeatherResponse) {
-            handleWeatherResponse((WeatherResponse) event.getBaseResponse());
+            weatherResponse = (WeatherResponse) event.getBaseResponse();
+            handleWeatherResponse();
         } else if (event.getBaseResponse() instanceof WeatherForecastResponse) {
-            handleWeatherForecastResponse((WeatherForecastResponse) event.getBaseResponse());
+            weatherForecastResponse = (WeatherForecastResponse) event.getBaseResponse();
+            handleWeatherForecastResponse();
+            CommonUtils.hideProgressBar(progressDialog);
+            progressDialog = null;
         }
     }
 
-    private void handleWeatherForecastResponse(WeatherForecastResponse weatherForecastResponse) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(NetworkResponseFailedEvent event) {
+        CommonUtils.hideProgressBar(progressDialog);
+        progressDialog = null;
+        createSnackBar(event.getMessage());
+    }
+
+    private void createSnackBar(String message) {
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "Server Response: " + message, Snackbar.LENGTH_LONG)
+                .setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new UpdateCityDialog().show(getActivity().getFragmentManager(), "UpdateCityFragment");
+                    }
+                });
+
+        snackbar.show();
+    }
+
+    private void handleWeatherForecastResponse() {
         progressBar.setVisibility(View.GONE);
-        this.weatherForecastResponse = weatherForecastResponse;
         adapter.setWeatherForecastResponse(weatherForecastResponse);
         adapter.notifyDataSetChanged();
     }
 
-    private void handleWeatherResponse(WeatherResponse weatherResponse) {
-        this.weatherResponse = weatherResponse;
+    private void handleWeatherResponse() {
         loadWeatherData();
         presenter.fetchWeatherForecastData(city);
         progressBar.setVisibility(View.VISIBLE);
@@ -150,18 +187,18 @@ public class WeatherFragment extends Fragment {
     private void loadWeatherData() {
         String minTempStr = String.format("%s %d", "Min", (int) weatherResponse.getMain().getTemp_min());
         String maxTempStr = String.format("%s %d", "Max", (int) weatherResponse.getMain().getTemp_max());
-        minTemp.setText(minTempStr);
-        maxTemp.setText(maxTempStr);
+        CommonUtils.setTextToTextView(minTemp, minTempStr + (char)0x00B0);
+        CommonUtils.setTextToTextView(maxTemp, maxTempStr + (char)0x00B0);
 
         String temp = String.format("%d", (int) weatherResponse.getMain().getTemp());
-        currentTemp.setText(temp);
-        weatherDate.setText(DateTimeUtils.getDate(weatherResponse.getDt()));
-
-        cityName.setText(weatherResponse.getName());
+        CommonUtils.setTextToTextView(currentTemp, temp + (char)0x00B0 + "C");
+        CommonUtils.setTextToTextView(weatherDate, DateTimeUtils.getDate(weatherResponse.getDt()));
+        CommonUtils.setTextToTextView(cityName, weatherResponse.getName());
 
         if (weatherResponse.getWeatherList() != null && weatherResponse.getWeatherList().size() > 0) {
-            loadImage(weatherResponse.getWeatherList().get(0));
-            weatherDescription.setText(weatherResponse.getWeatherList().get(0).getDescription());
+            Weather weather = weatherResponse.getWeatherList().get(0);
+            loadImage(weather);
+            CommonUtils.setTextToTextView(weatherDescription, weather.getDescription());
         }
     }
 
@@ -177,4 +214,16 @@ public class WeatherFragment extends Fragment {
                 .into(weatherIcon);
     }
 
+    public void updateWeatherCity(String cityName) {
+        progressDialog = CommonUtils.createProgressBarDialog(getActivity());
+        city = cityName;
+        presenter.fetchWeatherData(cityName);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.update_city) {
+            new UpdateCityDialog().show(getActivity().getFragmentManager(), "UpdateCityFragment");
+        }
+    }
 }

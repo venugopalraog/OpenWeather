@@ -13,6 +13,7 @@ import com.sample.openweather.R;
 import com.sample.openweather.models.WeatherForecastResponse;
 import com.sample.openweather.models.weather.ForecastData;
 import com.sample.openweather.models.weather.Weather;
+import com.sample.openweather.utils.CommonUtils;
 import com.sample.openweather.utils.DateTimeUtils;
 
 import butterknife.BindView;
@@ -90,13 +91,13 @@ public class WeatherForecastAdapter extends RecyclerView.Adapter<WeatherForecast
 
         public void bindData(ForecastData forecastData) {
 
-            forecastDay.setText(DateTimeUtils.getDayOfWeek(forecastData.getDt()));
-            forecastDate.setText(DateTimeUtils.getDate(forecastData.getDt()));
+            CommonUtils.setTextToTextView(forecastDay, DateTimeUtils.getDayOfWeek(forecastData.getDt()));
+            CommonUtils.setTextToTextView(forecastDate, DateTimeUtils.getDate(forecastData.getDt()));
 
             String minTempStr = String.format("%s %d", "Min", (int) forecastData.getTemp().getMin());
             String maxTempStr = String.format("%s %d", "Max", (int) forecastData.getTemp().getMax());
-            minTemp.setText(minTempStr);
-            maxTemp.setText(maxTempStr);
+            CommonUtils.setTextToTextView(minTemp, minTempStr + (char)0x00B0);
+            CommonUtils.setTextToTextView(maxTemp, maxTempStr + (char)0x00B0);
 
             if (forecastData.getWeatherList() == null || forecastData.getWeatherList().size() < 1) {
                 Timber.tag(TAG).d("Icon name is null - return");
@@ -104,13 +105,12 @@ public class WeatherForecastAdapter extends RecyclerView.Adapter<WeatherForecast
             }
 
             Weather weather = forecastData.getWeatherList().get(0);
+            CommonUtils.setTextToTextView(weatherStatus, weather.getMain());
             loadImage(weather);
-            weatherStatus.setText(weather.getMain());
         }
 
         private void loadImage(Weather weather) {
             String url = String.format("%s/%s", BuildConfig.ICON_URL, weather.getIcon());
-
             Timber.tag(TAG).d("Image Url: " + url);
             // Load weather icon into imageView using Glide
             Glide.with(itemView.getContext())

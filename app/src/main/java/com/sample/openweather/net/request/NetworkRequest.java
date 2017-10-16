@@ -3,7 +3,7 @@ package com.sample.openweather.net.request;
 import com.google.gson.GsonBuilder;
 import com.sample.openweather.BuildConfig;
 import com.sample.openweather.models.BaseResponse;
-import com.sample.openweather.presenter.RequestStatusListner;
+import com.sample.openweather.presenter.RequestStatusListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,11 +39,14 @@ public class NetworkRequest extends BaseRequest {
         call.enqueue(new Callback<T>() {
             @Override
             public void onResponse(Call<T> call, Response<T> response) {
-                Timber.tag(TAG).d("Received server response...");
+                Timber.tag(TAG).d("Received server response..." + response.message());
                 if (response.body() != null) {
                     Timber.tag(TAG).d(" response: " + response.body().toString());
                     if (networkListener != null)
                         networkListener.onRequestSuccess(response.body());
+                } else {
+                    if (networkListener != null)
+                        networkListener.onRequestFailed(response.message());
                 }
             }
 
@@ -56,14 +59,15 @@ public class NetworkRequest extends BaseRequest {
         });
     }
 
-    public void getWeatherModel(String city, RequestStatusListner listner) {
-        this.networkListener = listner;
-        requestServer(createWeatherInterface().getWeatherData(city, "metric", BuildConfig.OPEN_WEATHER_API_KEY));
-    }
-
-    public void getWeatherForecastModel(String city, RequestStatusListner listner) {
-        this.networkListener = listner;
+    @Override
+    public void getWeatherForecastModel(String city, RequestStatusListener listener) {
+        this.networkListener = listener;
         requestServer(createWeatherInterface().getWeatherForecastData(city, "metric", "5", BuildConfig.OPEN_WEATHER_API_KEY));
     }
 
+    @Override
+    public void getWeatherModel(String city, RequestStatusListener listener) {
+        this.networkListener = listener;
+        requestServer(createWeatherInterface().getWeatherData(city, "metric", BuildConfig.OPEN_WEATHER_API_KEY));
+    }
 }
