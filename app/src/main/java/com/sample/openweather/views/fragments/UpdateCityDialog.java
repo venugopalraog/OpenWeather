@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 public class UpdateCityDialog extends DialogFragment {
 
-    @BindView(R.id.dialog_stock)
+    @BindView(R.id.update_city_edit_text)
     EditText stock;
 
     @Override

@@ -36,6 +36,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -182,12 +184,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     }
 
     private void loadWeatherData() {
-        String minTempStr = String.format("%s %d", "Min", (int) weatherResponse.getMain().getTemp_min());
-        String maxTempStr = String.format("%s %d", "Max", (int) weatherResponse.getMain().getTemp_max());
+        String minTempStr = String.format(Locale.US,"%s %d", "Min", (int) weatherResponse.getMain().getTemp_min());
+        String maxTempStr = String.format(Locale.US,"%s %d", "Max", (int) weatherResponse.getMain().getTemp_max());
         CommonUtils.setTextToTextView(minTemp, minTempStr + (char)0x00B0);
         CommonUtils.setTextToTextView(maxTemp, maxTempStr + (char)0x00B0);
 
-        String temp = String.format("%d", (int) weatherResponse.getMain().getTemp());
+        String temp = String.format(Locale.US,"%d", (int) weatherResponse.getMain().getTemp());
         CommonUtils.setTextToTextView(currentTemp, temp + (char)0x00B0 + "C");
         CommonUtils.setTextToTextView(weatherDate, DateTimeUtils.getDate(weatherResponse.getDt()));
         CommonUtils.setTextToTextView(cityName, weatherResponse.getName());
@@ -208,6 +210,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                 .fitCenter()
                 .error(R.drawable.ic_sunny)
                 .into(weatherIcon);
+        weatherIcon.setContentDescription(weather.getMain());
     }
 
     public void updateWeatherCity(String cityName) {

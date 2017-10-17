@@ -62,8 +62,8 @@
                     android:id="@+id/weather_max_temp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/temp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:textColor="@color/material_white"
                     android:textSize="18sp"
                     tools:text="Max 32"/>

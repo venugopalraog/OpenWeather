@@ -1,7 +1,5 @@
 package com.sample.openweather.presenter;
 
-import android.content.Context;
-
 import com.sample.openweather.models.BaseResponse;
 import com.sample.openweather.models.events.NetworkResponseEvent;
 import com.sample.openweather.models.events.NetworkResponseFailedEvent;
@@ -15,7 +13,7 @@ import javax.inject.Inject;
  * Created by venugopalraog on 10/12/17.
  */
 
-public class MainScreenPresenter extends BasePresenter implements RequestStatusListener {
+public class MainScreenPresenter implements RequestStatusListener {
 
     @Inject
     BaseRequest networkRequest;
@@ -24,9 +22,7 @@ public class MainScreenPresenter extends BasePresenter implements RequestStatusL
     EventBus eventBus;
 
     @Inject
-    MainScreenPresenter(Context context) {
-        super(context);
-    }
+    public MainScreenPresenter() {  }
 
     public void fetchWeatherData(String city) {
         networkRequest.getWeatherModel(city, this);
