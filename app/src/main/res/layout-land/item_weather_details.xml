@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="8dp"
+    android:minHeight="100dp"
+    app:cardBackgroundColor="@color/colorLight">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/weather_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/material_white"
+                android:textSize="18sp"
+                tools:text="Today Oct 12 2017"/>
+
+            <TextView
+                android:id="@+id/weather_current_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/weather_date"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/material_white"
+                android:textSize="64sp"
+                tools:text="10"/>
+
+            <LinearLayout
+                android:id="@+id/temp_range_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/weather_current_temp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/weather_min_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/material_white"
+                    android:textSize="18sp"
+                    tools:text="Min 10"/>
+
+                <TextView
+                    android:id="@+id/weather_max_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/material_white"
+                    android:textSize="18sp"
+                    tools:text="Max 32"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/weather_city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:layout_below="@+id/temp_range_container"
+                android:layout_toRightOf="@+id/weather_current_temp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/material_white"
+                android:textSize="18sp"
+                tools:text="Westerville, US"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/weather_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                tools:src="@drawable/ic_sunny"/>
+
+            <TextView
+                android:id="@+id/weather_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/material_white"
+                android:textSize="24sp"
+                tools:text="haze"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

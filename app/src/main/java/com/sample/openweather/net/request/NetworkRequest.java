@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder;
 import com.sample.openweather.BuildConfig;
 import com.sample.openweather.models.BaseResponse;
 import com.sample.openweather.presenter.RequestStatusListener;
+import com.sample.openweather.utils.Constants;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,12 +63,12 @@ public class NetworkRequest extends BaseRequest {
     @Override
     public void getWeatherForecastModel(String city, RequestStatusListener listener) {
         this.networkListener = listener;
-        requestServer(createWeatherInterface().getWeatherForecastData(city, "metric", "5", BuildConfig.OPEN_WEATHER_API_KEY));
+        requestServer(createWeatherInterface().getWeatherForecastData(city, Constants.WEATHER_UNIT, Constants.FORECAST_DAY_COUNT, BuildConfig.OPEN_WEATHER_API_KEY));
     }
 
     @Override
     public void getWeatherModel(String city, RequestStatusListener listener) {
         this.networkListener = listener;
-        requestServer(createWeatherInterface().getWeatherData(city, "metric", BuildConfig.OPEN_WEATHER_API_KEY));
+        requestServer(createWeatherInterface().getWeatherData(city, Constants.WEATHER_UNIT, BuildConfig.OPEN_WEATHER_API_KEY));
     }
 }

@@ -96,8 +96,8 @@ public class WeatherForecastAdapter extends RecyclerView.Adapter<WeatherForecast
             CommonUtils.setTextToTextView(forecastDay, DateTimeUtils.getDayOfWeek(forecastData.getDt()));
             CommonUtils.setTextToTextView(forecastDate, DateTimeUtils.getDate(forecastData.getDt()));
 
-            String minTempStr = String.format(Locale.US,"%s %d", "Min", (int) forecastData.getTemp().getMin());
-            String maxTempStr = String.format(Locale.US,"%s %d", "Max", (int) forecastData.getTemp().getMax());
+            String minTempStr = String.format(Locale.US,"%s %d", itemView.getResources().getString(R.string.temperature_min), (int) forecastData.getTemp().getMin());
+            String maxTempStr = String.format(Locale.US,"%s %d", itemView.getResources().getString(R.string.temperature_max), (int) forecastData.getTemp().getMax());
             CommonUtils.setTextToTextView(minTemp, minTempStr + (char)0x00B0);
             CommonUtils.setTextToTextView(maxTemp, maxTempStr + (char)0x00B0);
 

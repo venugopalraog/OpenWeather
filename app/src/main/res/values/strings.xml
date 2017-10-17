@@ -5,13 +5,14 @@
     <string name="dialog_update">Update</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="weather_fragment_title">Open Weather</string>
-
+    <string name="snackbar_retry_button">Retry</string>
+    <string name="snackbar_server_response">Server Response: </string>
+    <string name="temperature_min">Min</string>
+    <string name="temperature_max">Max</string>
 
     <string name="update_button_cd">Click to update city</string>
     <string name="loading_forecast_cd">loading forecast details</string>
     <string name="toolbar_icon_cd">Weather App Icon</string>
     <string name="weather_fragment_title_cd">Open Weather Title</string>
-
-
 
 </resources>

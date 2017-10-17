@@ -51,6 +51,8 @@ import timber.log.Timber;
 public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG = WeatherFragment.class.getSimpleName();
+    public static final String WEATHER_DATA_RESPONSE = "WEATHER_DATA_RESPONSE";
+    public static final String WEATHER_FORECAST_RESPONSE = "WEATHER_FORECAST_RESPONSE";
 
 
     @BindView(R.id.coordinator_layout)
@@ -103,17 +105,23 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Add WeatherFragment to Dagger
-        MyApplication.getAppComponent(MyApplication.getAppContext()).inject(this);
-        //Register WeatherFragment for EventBus
-        eventBus.register(this);
+        if (savedInstanceState != null) {
+                weatherResponse = savedInstanceState.getParcelable(WEATHER_DATA_RESPONSE);
+                weatherForecastResponse = savedInstanceState.getParcelable(WEATHER_FORECAST_RESPONSE);
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_weather, container, false);
+        //Add WeatherFragment to Dagger
+        MyApplication.getAppComponent(MyApplication.getAppContext()).inject(this);
+        //Register WeatherFragment for EventBus
+        eventBus.register(this);
+        //Bind the rootview to butterKnife library
         ButterKnife.bind(this, rootView);
+
         adapter = new WeatherForecastAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -122,11 +130,22 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
         updateCityFAB.setOnClickListener(this);
-
         //Fetch Weather Data from openWeather API
-        presenter.fetchWeatherData(sharedPreferencesUtil.getLastSearchedCityName());
+        if (weatherResponse == null)
+            presenter.fetchWeatherData(sharedPreferencesUtil.getLastSearchedCityName());
+        else {
+            loadWeatherData();
+            loadWeatherForecastData();
+        }
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(WEATHER_DATA_RESPONSE, weatherResponse);
+        outState.putParcelable(WEATHER_FORECAST_RESPONSE, weatherForecastResponse);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -145,7 +164,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
             handleWeatherResponse();
         } else if (event.getBaseResponse() instanceof WeatherForecastResponse) {
             weatherForecastResponse = (WeatherForecastResponse) event.getBaseResponse();
-            handleWeatherForecastResponse();
+            loadWeatherForecastData();
             CommonUtils.hideProgressBar(progressDialog);
             progressDialog = null;
         }
@@ -160,8 +179,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
     private void createSnackBar(String message) {
         Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, "Server Response: " + message, Snackbar.LENGTH_LONG)
-                .setAction("RETRY", new View.OnClickListener() {
+                .make(coordinatorLayout, getString(R.string.snackbar_server_response) + message, Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.snackbar_retry_button), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         new UpdateCityDialog().show(getActivity().getFragmentManager(), "UpdateCityFragment");
@@ -171,7 +190,11 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         snackbar.show();
     }
 
-    private void handleWeatherForecastResponse() {
+    private void loadWeatherForecastData() {
+        if (weatherForecastResponse == null) {
+            Timber.tag(TAG).d("Weather forecast response is null");
+            return;
+        }
         progressBar.setVisibility(View.GONE);
         adapter.setWeatherForecastResponse(weatherForecastResponse);
         adapter.notifyDataSetChanged();
@@ -184,13 +207,17 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     }
 
     private void loadWeatherData() {
-        String minTempStr = String.format(Locale.US,"%s %d", "Min", (int) weatherResponse.getMain().getTemp_min());
-        String maxTempStr = String.format(Locale.US,"%s %d", "Max", (int) weatherResponse.getMain().getTemp_max());
-        CommonUtils.setTextToTextView(minTemp, minTempStr + (char)0x00B0);
-        CommonUtils.setTextToTextView(maxTemp, maxTempStr + (char)0x00B0);
+        if (weatherResponse == null) {
+            Timber.tag(TAG).d("Weather Response is null");
+            return;
+        }
+        String minTempStr = String.format(Locale.US, "%s %d", getString(R.string.temperature_min), (int) weatherResponse.getMain().getTemp_min());
+        String maxTempStr = String.format(Locale.US, "%s %d", getString(R.string.temperature_max), (int) weatherResponse.getMain().getTemp_max());
+        CommonUtils.setTextToTextView(minTemp, minTempStr + (char) 0x00B0);
+        CommonUtils.setTextToTextView(maxTemp, maxTempStr + (char) 0x00B0);
 
-        String temp = String.format(Locale.US,"%d", (int) weatherResponse.getMain().getTemp());
-        CommonUtils.setTextToTextView(currentTemp, temp + (char)0x00B0 + "C");
+        String temp = String.format(Locale.US, "%d", (int) weatherResponse.getMain().getTemp());
+        CommonUtils.setTextToTextView(currentTemp, temp + (char) 0x00B0 + "C");
         CommonUtils.setTextToTextView(weatherDate, DateTimeUtils.getDate(weatherResponse.getDt()));
         CommonUtils.setTextToTextView(cityName, weatherResponse.getName());
 

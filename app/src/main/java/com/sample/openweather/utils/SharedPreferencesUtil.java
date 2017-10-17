@@ -23,6 +23,6 @@ public class SharedPreferencesUtil {
     }
 
     public String getLastSearchedCityName() {
-        return preferences.getString(LAST_SEARCHED_CITY_NAME, "Westerville");
+        return preferences.getString(LAST_SEARCHED_CITY_NAME, Constants.DEFAULT_CITY);
     }
 }
