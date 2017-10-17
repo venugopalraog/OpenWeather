@@ -8,6 +8,7 @@ information.
  3. Saves the last searched City Name and displays last searched when user restart the
 application.
  4. Currently this application supports only Celsius unit.
+ 5. This application supports Accessbility.
 # Application Architecture
   Used Model-View-Presenter (MVP) Architecture in this application.
   
